@@ -39,5 +39,14 @@
     "react-redux": "^5.0.4",
     "redux": "^3.6.0",
     "prop-types": "^15.5.9"
-  }
+  },
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/morulus/connect-context.git"
+  },
+  "bugs": {
+    "url": "https://github.com/morulus/connect-context/issues"
+  },
+  "homepage": "https://github.com/morulus/connect-context#readme"
 }
