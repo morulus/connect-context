@@ -1,8 +1,8 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { mount, shallow } from 'enzyme';
-import toJson from 'enzyme-to-json';
+import { mount } from 'enzyme';
 import { createStore } from 'redux';
+import uuid4 from 'uuid4';
 import PropTypes from 'prop-types';
 import { provideContext, createProvider, connectContext, connect } from './src';
 
@@ -32,7 +32,7 @@ function noContextTypes() {
   const ContextProvider = provideContext(() => ({
     message,
   }))(({ children }) => children);
-  shallow(<ContextProvider>
+  mount(<ContextProvider>
     <Child
       ownPropMessage="Hello, Provider!"
     />
@@ -41,74 +41,88 @@ function noContextTypes() {
 
 describe('connectContext, createProvider', () => {
   it('Provide & connect, mixin up with own prop', () => {
-    const Child = connectContext({
+    const mock = {
+      a: uuid4(),
+      b: uuid4(),
+    };
+    const Child = jest.fn(({ contextMessage, ownPropMessage }) => {
+      expect(contextMessage).toBe(mock.a);
+      expect(ownPropMessage).toBe(mock.b);
+      return <div>{contextMessage},{ownPropMessage}</div>;
+    });
+    const ConnectedChild = connectContext({
       message: PropTypes.string.isRequired,
     }, ({ message }) => ({
       contextMessage: message,
-    }))(({ contextMessage, ownPropMessage }) => <div>{contextMessage},{ownPropMessage}</div>);
-    const message = 'Hello, Child!';
+    }))(Child);
     const ContextProvider = createProvider({
-      message,
+      message: mock.a,
     });
-    expect(toJson(mount(<ContextProvider>
-      <Child
-        ownPropMessage="Hello, Provider!"
+    mount(<ContextProvider>
+      <ConnectedChild
+        ownPropMessage={mock.b}
       />
-    </ContextProvider>))).toMatchSnapshot();
+    </ContextProvider>);
+    expect(Child).toHaveBeenCalled();
   });
 
   it('Type/args errors', () => {
     expect(noContextTypes).toThrowError('If contextProps is function, contextTypes required');
   });
+
+  it('Proxy props', () => {
+    const mock = {
+      a: uuid4(),
+      b: uuid4(),
+    };
+    const context = {
+      a: mock.a,
+    };
+    const Child = jest.fn(({ a, b }) => {
+      expect(a).toBe(mock.a);
+      expect(b).toBe(mock.b);
+      return <div />;
+    });
+    const ConnectedChild = connectContext({
+      a: PropTypes.string.isRequired,
+    })(Child);
+    const ContextProvider = createProvider(context);
+    mount(<ContextProvider>
+      <ConnectedChild
+        b={mock.b}
+      />
+    </ContextProvider>);
+    expect(Child).toHaveBeenCalled();
+  });
 });
 
 describe('connect', () => {
-  const store = createStore(reducer);
-  const Child = connect({
-    selector: PropTypes.func,
-  }, ({ selector }, { a }) => ({
-    data: selector(a),
-  }))(({ data }) => (<div>Selected: {data}</div>));
-  const ContextProvider = provideContext({
-    selector: demoSelector,
-  })(() => <Provider store={store}>
-    <Child />
-  </Provider>);
+  let Child;
+  beforeAll(() => {
+    Child = jest.fn(({ data }) => {
+      expect(data).toBe(demoSelector(INITIAL_STATE.a));
+      return <div />;
+    });
+    const store = createStore(reducer);
+    const ConnectedChild = connect({
+      selector: PropTypes.func,
+    }, ({ selector }, { a }) => ({
+      data: selector(a),
+    }))(Child);
+    const ContextProvider = provideContext({
+      selector: demoSelector,
+    })(() => <Provider store={store}>
+      <ConnectedChild />
+    </Provider>);
+    mount(<ContextProvider />);
+  });
+
 
   it('Child is a function', () => {
     expect(typeof Child).toBe('function');
   });
 
-  it('ContextProvider is a function', () => {
-    expect(typeof ContextProvider).toBe('function');
-  });
-
-  it('Standalone Child rendered well', () => {
-    expect(toJson(shallow(<Child />))).toMatchSnapshot();
-  });
-
-  it('Composition mount', () => {
-    expect(toJson(mount(<ContextProvider />))).toMatchSnapshot();
-  });
-});
-
-describe('No mapContextToProps', () => {
-  it('Provide & connect, mixin up with own prop without mapContextToProps', () => {
-    const Child = connectContext({
-      message: PropTypes.string.isRequired,
-    })(({ message, ownPropMessage }) => (<div>{message},{ownPropMessage}</div>));
-    const message = 'Hello, Child!';
-    const ContextProvider = createProvider({
-      message,
-    });
-    expect(toJson(mount(<ContextProvider>
-      <Child
-        ownPropMessage="Hello, Provider!"
-      />
-    </ContextProvider>))).toMatchSnapshot();
-  });
-
-  it('Type/args errors', () => {
-    expect(noContextTypes).toThrowError('If contextProps is function, contextTypes required');
+  it('Child have been called', () => {
+    expect(Child).toHaveBeenCalled();
   });
 });
