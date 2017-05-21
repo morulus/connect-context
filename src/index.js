@@ -14,3 +14,4 @@ export { connect };
 export connectContext from './connectContext';
 export provideContext from './provideContext';
 export acceptContext from './acceptContext';
+export createProvider from './createProvider';

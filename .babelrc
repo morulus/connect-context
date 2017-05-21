@@ -20,6 +20,11 @@
     "transform-export-extensions"
   ],
   "env": {
+    "test": {
+      "plugins": [
+        ["transform-es2015-modules-commonjs", { "loose": true }],
+      ]
+    },
     "commonjs": {
       "plugins": [
         ["transform-es2015-modules-commonjs", { "loose": true }]

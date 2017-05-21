@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`connectContext Provide & connect, mixin up with own prop 1`] = `
+exports[`No mapContextToProps Provide & connect, mixin up with own prop without mapContextToProps 1`] = `
 <ContextProvider>
-  <Component>
+  <ProxyComponent>
     <ContextProxyComponent
       ownPropMessage="Hello, Provider!"
     >
@@ -29,10 +29,10 @@ exports[`connectContext Provide & connect, mixin up with own prop 1`] = `
               },
             ]
           }
-          contextMessage="Hello, Child!"
+          message="Hello, Child!"
         >
           <Component
-            contextMessage="Hello, Child!"
+            message="Hello, Child!"
             ownPropMessage="Hello, Provider!"
           >
             <div>
@@ -44,11 +44,11 @@ exports[`connectContext Provide & connect, mixin up with own prop 1`] = `
         </ContextLowerProxyComponent>
       </ContextConnector>
     </ContextProxyComponent>
-  </Component>
+  </ProxyComponent>
 </ContextProvider>
 `;
 
-exports[`react-redux support Composition mount 1`] = `
+exports[`connect Composition mount 1`] = `
 <ContextProvider>
   <Component>
     <Provider
@@ -102,7 +102,7 @@ exports[`react-redux support Composition mount 1`] = `
 </ContextProvider>
 `;
 
-exports[`react-redux support Standalone Child rendered well 1`] = `
+exports[`connect Standalone Child rendered well 1`] = `
 <Connect(ContextLowerProxyComponent)
   @@connectContext.CONNECTOR_CONTEXT_TEMPORARY_CONTEXT_PROP={
     Array [
@@ -113,4 +113,52 @@ exports[`react-redux support Standalone Child rendered well 1`] = `
     ]
   }
 />
+`;
+
+exports[`connectContext, createProvider Provide & connect, mixin up with own prop 1`] = `
+<ContextProvider>
+  <ProxyComponent>
+    <ContextProxyComponent
+      ownPropMessage="Hello, Provider!"
+    >
+      <ContextConnector
+        @@connectContext.CONNECTOR_CONTEXT_TEMPORARY_CONTEXT_PROP={
+          Array [
+            Object {
+              "message": "Hello, Child!",
+            },
+            Object {
+              "ownPropMessage": "Hello, Provider!",
+            },
+          ]
+        }
+      >
+        <ContextLowerProxyComponent
+          @@connectContext.CONNECTOR_CONTEXT_TEMPORARY_CONTEXT_PROP={
+            Array [
+              Object {
+                "message": "Hello, Child!",
+              },
+              Object {
+                "ownPropMessage": "Hello, Provider!",
+              },
+            ]
+          }
+          contextMessage="Hello, Child!"
+        >
+          <Component
+            contextMessage="Hello, Child!"
+            ownPropMessage="Hello, Provider!"
+          >
+            <div>
+              Hello, Child!
+              ,
+              Hello, Provider!
+            </div>
+          </Component>
+        </ContextLowerProxyComponent>
+      </ContextConnector>
+    </ContextProxyComponent>
+  </ProxyComponent>
+</ContextProvider>
 `;
