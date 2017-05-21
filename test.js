@@ -98,6 +98,34 @@ describe('connectContext, createProvider', () => {
     </ContextProvider>);
     expect(Child).toHaveBeenCalled();
   });
+
+  it('Pick up only typed context props', () => {
+    const mock = {
+      a: uuid4(),
+      b: uuid4(),
+      c: uuid4(),
+    };
+    const context = {
+      a: mock.a,
+      b: mock.b,
+      c: mock.c,
+    };
+    const Child = jest.fn(({ a, b, c }) => {
+      expect(a).toBe(mock.a);
+      expect(b).toBe(mock.b);
+      expect(c).toBe(undefined);
+      return <div />;
+    });
+    const ConnectedChild = connectContext({
+      a: PropTypes.string.isRequired,
+      b: PropTypes.string,
+    })(Child);
+    const ContextProvider = createProvider(context);
+    mount(<ContextProvider>
+      <ConnectedChild />
+    </ContextProvider>);
+    expect(Child).toHaveBeenCalled();
+  });
 });
 
 describe('connect', () => {
