@@ -8,12 +8,12 @@ export default function provideContext(contextProps, contextTypes) {
   const contextPropsType = typeof contextProps;
   const contextTypesType = typeof contextTypes;
   invariant(
-    !(contextPropsType === 'function' || typeof contextPropsType === 'object'),
-    `provideContext: contextProps must be a function or object, '${contextPropsType}' given;`,
+    contextPropsType === 'function' || contextPropsType === 'object',
+    `contextProps must be a function or object, '${contextPropsType}' given;`,
   );
   invariant(
-    !(contextPropsType === 'function' && contextTypesType === 'object'),
-    'provideContext: if contextProps is function, then it requires contextTypes',
+    contextPropsType !== 'function' || contextTypesType === 'object',
+    'If contextProps is function, contextTypes required',
   );
   if (contextPropsType === 'object') {
     getChildContext = () => contextProps;

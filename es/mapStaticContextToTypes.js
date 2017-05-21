@@ -1,14 +1,6 @@
 /* eslint no-restricted-syntax: 0 */
 import PropTypes from 'prop-types';
-
-const nativeTypeToPropType = {
-  string: PropTypes.string,
-  number: PropTypes.number,
-  boolean: PropTypes.bool,
-  symbol: PropTypes.symbol,
-  function: PropTypes.func,
-  undefined: PropTypes.any,
-};
+import { nativeTypeToPropType } from './constants';
 
 export default function mapStaticContextToTypes(context) {
   const contextTypes = {};
