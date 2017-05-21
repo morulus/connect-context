@@ -74,13 +74,15 @@ describe('connectContext, createProvider', () => {
     const mock = {
       a: uuid4(),
       b: uuid4(),
+      c: uuid4(),
     };
     const context = {
       a: mock.a,
     };
-    const Child = jest.fn(({ a, b }) => {
+    const Child = jest.fn(({ a, b, children }) => {
       expect(a).toBe(mock.a);
       expect(b).toBe(mock.b);
+      expect(children).toBe(mock.c);
       return <div />;
     });
     const ConnectedChild = connectContext({
@@ -90,7 +92,9 @@ describe('connectContext, createProvider', () => {
     mount(<ContextProvider>
       <ConnectedChild
         b={mock.b}
-      />
+      >
+        {mock.c}
+      </ConnectedChild>
     </ContextProvider>);
     expect(Child).toHaveBeenCalled();
   });

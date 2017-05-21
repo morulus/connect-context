@@ -6,7 +6,7 @@ export default (Child, contextTypes) => {
     const nextProps = {
       [PORT_CONTEXT_KEY]: [context, props],
     };
-    return React.createElement(Child, nextProps, nextProps.children);
+    return React.createElement(Child, nextProps);
   };
 
   ProxyComponent.contextTypes = contextTypes;
