@@ -15,6 +15,6 @@ export default Child => function ContextLowerProxyComponent(props) {
       }
     }
   }
-  return React.createElement(Child, omittedProps, props.children);
+  return React.createElement(Child, omittedProps);
 };
 /* eslint-enable */

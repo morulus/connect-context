@@ -3,8 +3,10 @@ import getLowerProxyComponent from './getLowerProxyComponent';
 import getHigherProxyComponent from './getHigherProxyComponent';
 import { PORT_CONTEXT_KEY } from './constants';
 
-function defaultMapContextToProps() {
-  return {};
+function defaultMapContextToProps(context) {
+  return {
+    ...context,
+  };
 }
 
 export default function createContextConnector(connect) {
