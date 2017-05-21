@@ -47,3 +47,70 @@ exports[`connectContext Provide & connect, mixin up with own prop 1`] = `
   </Component>
 </ContextProvider>
 `;
+
+exports[`react-redux support Composition mount 1`] = `
+<ContextProvider>
+  <Component>
+    <Provider
+      store={
+        Object {
+          "dispatch": [Function],
+          "getState": [Function],
+          "replaceReducer": [Function],
+          "subscribe": [Function],
+          Symbol(observable): [Function],
+        }
+      }
+    >
+      <ContextProxyComponent>
+        <Connect(ContextLowerProxyComponent)
+          @@connectContext.CONNECTOR_CONTEXT_TEMPORARY_CONTEXT_PROP={
+            Array [
+              Object {
+                "selector": [Function],
+              },
+              Object {},
+            ]
+          }
+        >
+          <ContextLowerProxyComponent
+            @@connectContext.CONNECTOR_CONTEXT_TEMPORARY_CONTEXT_PROP={
+              Array [
+                Object {
+                  "selector": [Function],
+                },
+                Object {},
+              ]
+            }
+            data={124816}
+            dispatch={[Function]}
+          >
+            <Component
+              data={124816}
+              dispatch={[Function]}
+            >
+              <div>
+                Selected: 
+                124816
+              </div>
+            </Component>
+          </ContextLowerProxyComponent>
+        </Connect(ContextLowerProxyComponent)>
+      </ContextProxyComponent>
+    </Provider>
+  </Component>
+</ContextProvider>
+`;
+
+exports[`react-redux support Standalone Child rendered well 1`] = `
+<Connect(ContextLowerProxyComponent)
+  @@connectContext.CONNECTOR_CONTEXT_TEMPORARY_CONTEXT_PROP={
+    Array [
+      Object {
+        "selector": undefined,
+      },
+      Object {},
+    ]
+  }
+/>
+`;
