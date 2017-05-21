@@ -1,6 +1,6 @@
 {
   "name": "connect-context",
-  "version": "0.1.0-beta",
+  "version": "0.1.0-beta.1",
   "description": "Connect/provide context to/from the stateless component",
   "main": "lib/index.js",
   "module": "es/index.js",
