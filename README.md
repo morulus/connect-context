@@ -35,7 +35,8 @@ Prepare context connector, which can be applied on an existing component.
 
 _Params_:
 
-- `contextProps` {object|function} Context itselfs or getChildContext function.
+- `contextProps` {object|function} Context object or getChildContext function;
+  - If is a function, accepts `props`, `state` parameters.
 - `contextTypes` {object} Context types (in case of contextProps is a function)
 
 _Returns_: {function} connector
@@ -46,7 +47,8 @@ Create React component, which provides specified context.
 
 _Params_:
 
-- `contextProps` {object|function} Context itselfs or getChildContext function.
+- `contextProps` {object|function} Context itselfs or getChildContext function;
+  - If is a function, accepts `props`, `state` parameters.
 - `contextTypes` {object} Context types (in case of contextProps is a function)
 
 _Returns_: {function} Component
