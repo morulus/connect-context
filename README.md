@@ -4,7 +4,7 @@ connect-context
 Connect/provide context to/from the stateless component
 
 ```js
-import { provideContext, connectContext } from 'connect-context';
+import { createProvider, connectContext } from 'connect-context';
 
 const Provider = createProvider({
   Layout: ({ children }) => (
