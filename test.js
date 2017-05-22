@@ -126,6 +126,35 @@ describe('connectContext, createProvider', () => {
     </ContextProvider>);
     expect(Child).toHaveBeenCalled();
   });
+
+  it('getChildContext as a function with props', () => {
+    const mock = {
+      a: 1,
+      b: 2,
+      c: 3,
+    };
+    const context = ({ a, b, c }) => ({
+      summ: a + b + c,
+    });
+    const Child = jest.fn(({ summ }) => {
+      expect(summ).toBe(mock.a + mock.b + mock.c);
+      return <div />;
+    });
+    const ConnectedChild = connectContext({
+      summ: PropTypes.number,
+    })(Child);
+    const ContextProvider = createProvider(context, {
+      summ: PropTypes.number,
+    });
+    mount(<ContextProvider
+      a={mock.a}
+      b={mock.b}
+      c={mock.c}
+    >
+      <ConnectedChild />
+    </ContextProvider>);
+    expect(Child).toHaveBeenCalled();
+  });
 });
 
 describe('connect', () => {

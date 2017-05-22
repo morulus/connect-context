@@ -21,7 +21,9 @@ export default function provideContext(contextProps, contextTypes) {
       contextTypes = mapStaticContextToTypes(contextProps);
     }
   } else {
-    getChildContext = contextProps;
+    getChildContext = function getOriginChildContext() {
+      return contextProps(this.props, this.state);
+    };
   }
   return Child => (class ContextProvider extends Component {
     static childContextTypes = contextTypes;
