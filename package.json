@@ -7,7 +7,7 @@
   "jsnext:main": "es/index.js",
   "scripts": {
     "test": "./node_modules/.bin/eslint src && ./node_modules/.bin/jest test.js",
-    "build": "cross-env BABEL_ENV=commonjs npm run build:es && npm run build:commonjs",
+    "build": "npm run build:es && npm run build:commonjs",
     "build:es": "cross-env BABEL_ENV=es babel src -d es",
     "build:commonjs": "cross-env BABEL_ENV=commonjs babel src -d lib",
     "prepublish": "npm run clean & npm run build",
