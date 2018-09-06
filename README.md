@@ -60,7 +60,7 @@ Connect context (specified in contextTypes) to the component.
 _Params_:
 
 - `contextTypes` {object} Context types
-- `mapContextToProps(context, props)` {function} Map context to the props (by the defaults maps the entire context to the props)
+- `mapContextToProps(context, state, props)` {function} Map context to the props (by the defaults maps the entire context to the props)
 
 _Returns_: {function} connector
 
